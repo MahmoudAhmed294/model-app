@@ -24,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import SQLite from 'react-native-sqlite-storage';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -57,6 +58,20 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const db = SQLite.openDatabase({name: 'database.db'});
+
+  db.transaction(tx => {
+    tx.executeSql(
+      'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT)',
+      [],
+      (tx, result) => {
+        console.log('Table created successfully');
+      },
+      error => {
+        console.log('Error creating table:', error);
+      },
+    );
+  });
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
