@@ -4,6 +4,7 @@ import fontConfig from './font';
 
 const theme = {
   ...DefaultTheme,
+  custom: 'property',
 
   colors: colors,
   fonts: configureFonts({config: fontConfig}),

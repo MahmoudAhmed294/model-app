@@ -24,11 +24,11 @@ const fontConfig: any = {
     lineHeight: 31,
   },
   headlineSmall: {
-    fontFamily: 'OpenSans-Bold',
-    fontSize: 6,
+    fontFamily: 'OpenSans-SemiBold',
+    fontSize: 12,
     fontWeight: '400',
     letterSpacing: 0,
-    lineHeight: 18,
+    lineHeight: 14,
   },
 
   headlineMedium: {
@@ -40,8 +40,8 @@ const fontConfig: any = {
   },
   titleSmall: {
     fontFamily: 'OpenSans-Bold',
-    fontSize: 6,
-    fontWeight: '500',
+    fontSize: 8,
+    fontWeight: 'bold',
     letterSpacing: 0,
     lineHeight: 18,
   },
@@ -49,9 +49,17 @@ const fontConfig: any = {
     fontFamily: 'OpenSans-Bold',
     fontSize: 15,
     fontWeight: '500',
-    letterSpacing: 0.15,
+    letterSpacing: 0,
     lineHeight: 31,
   },
+  titleCard: {
+    fontFamily: 'OpenSans-Bold',
+    fontSize: 11,
+    fontWeight: '500',
+    letterSpacing: 0,
+    lineHeight: 18,
+  },
+
   titleLarge: {
     fontFamily: 'OpenSans-Bold',
     fontSize: 16,
