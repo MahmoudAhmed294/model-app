@@ -10,6 +10,7 @@ module.exports = {
           '~/components': './src/components',
           '~/screens': './src/screens',
           '~/theme': './src/theme',
+          '~/utils': './src/utils',
         },
       },
       'react-native-paper/babel',
