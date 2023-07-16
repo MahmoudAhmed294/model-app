@@ -34,10 +34,11 @@ const styles = StyleSheet.create({
     border: 0,
     height: 49,
     backgroundColor: colors.inputBorder,
-    elevation: 6,
-    shadowColor: '#000',
+    elevation: 4,
+    shadowColor: '#4E4E4E',
     paddingRight: 24,
     top: 7.5,
+    marginTop: 0,
   },
   fontStyle: {
     fontFamily: 'OpenSans-Italic',

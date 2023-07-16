@@ -1,6 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import Box from './Box';
 import {Text} from 'react-native-paper';
 import colors from '~/theme/colors';
 
@@ -13,7 +12,7 @@ type Props = {
 const NoteItem = (props: Props) => {
   const {date, descriptions, title} = props;
   return (
-    <Box>
+    <View>
       <Text variant="headlineSmall" style={styles.color}>
         {title}
       </Text>
@@ -23,7 +22,7 @@ const NoteItem = (props: Props) => {
       <Text variant="displaySmall" style={styles.color}>
         {descriptions}
       </Text>
-    </Box>
+    </View>
   );
 };
 

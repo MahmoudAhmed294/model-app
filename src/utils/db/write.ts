@@ -7,7 +7,6 @@
  */
 
 import {enablePromise, SQLiteDatabase} from 'react-native-sqlite-storage';
-import {executeQuery} from './executeDatabase';
 import {ITablesName} from '../../model';
 
 enablePromise(true);
@@ -32,7 +31,7 @@ export const saveItems = async <T extends object>(
       ',',
     )}) VALUES (${placeholders})`;
 
-    return executeQuery(db, query, values.flat());
+    return db.executeSql(query, values.flat());
   } catch (error: any) {
     console.log(error);
   }

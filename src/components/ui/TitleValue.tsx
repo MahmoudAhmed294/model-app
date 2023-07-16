@@ -4,7 +4,7 @@ import {Text} from '.';
 
 type Props = {
   title: string;
-  value: string;
+  value: string | number;
 };
 
 const TitleValue = (props: Props) => {

@@ -1,19 +1,25 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Appbar, IconButton} from 'react-native-paper';
-import {ArrowLeftIcon} from '~/components/icons';
+import {ArrowLeftIcon, EditIcon, TransactionIcon} from '~/components/icons';
 import {Text} from '~/components/ui';
-type Props = {
-  title: string;
-  rightSection?: React.JSX.Element;
-};
-const Header = (props: Props) => {
-  const {title, rightSection} = props;
+import {getHeaderTitle} from '@react-navigation/elements';
+import {NativeStackHeaderProps} from '@react-navigation/native-stack';
+
+const Header = (props: NativeStackHeaderProps) => {
+  const {options, route, navigation, back} = props;
+
+  const title = getHeaderTitle(options, route.name);
 
   return (
     <Appbar.Header style={styles.header}>
       <View style={styles.IconContainer}>
-        <IconButton icon={ArrowLeftIcon} size={16} />
+        <IconButton
+          icon={ArrowLeftIcon}
+          size={16}
+          onPress={navigation.goBack}
+          disabled={back ? false : true}
+        />
         <Text variant="titleSmall" style={styles.textBelowIcon}>
           Back
         </Text>
@@ -21,7 +27,7 @@ const Header = (props: Props) => {
       <Text variant="titleXLarge" style={styles.title}>
         {title}
       </Text>
-      {rightSection ? rightSection : null}
+      {rightSection[title] || null}
     </Appbar.Header>
   );
 };
@@ -51,16 +57,41 @@ const styles = StyleSheet.create({
   },
 });
 
-/* 
+type IRightSection = {
+  [key: string]: JSX.Element | null;
+};
 
-        <View style={styles.IconContainer}>
-          <IconButton icon={TransactionIcon} size={16} />
-          <Text variant="titleSmall" style={styles.textBelowIcon}>
-            Process
-          </Text>
-        </View>
-
-
-
-
-*/
+const rightSection: IRightSection = {
+  Picture: (
+    <View style={styles.IconContainer}>
+      <IconButton icon={TransactionIcon} size={16} />
+      <Text variant="titleSmall" style={styles.textBelowIcon}>
+        Process
+      </Text>
+    </View>
+  ),
+  ModelDetails: (
+    <TouchableOpacity
+      style={{
+        backgroundColor: '#fff',
+        height: 39,
+        width: 70,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 25,
+        borderColor: '#707070',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        elevation: 4,
+        shadowColor: '#000',
+        marginRight: 4,
+      }}
+      disabled>
+      <EditIcon />
+      <Text variant="headlineMedium" style={{color: '#707070', marginLeft: 5}}>
+        Edit
+      </Text>
+    </TouchableOpacity>
+  ),
+};

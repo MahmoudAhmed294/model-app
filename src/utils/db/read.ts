@@ -6,7 +6,6 @@
  */
 
 import {ResultSet, SQLiteDatabase} from 'react-native-sqlite-storage';
-import {executeQuery} from './executeDatabase';
 import {ITablesName} from '../../model';
 
 const handleWhatToReturn = async (needToReturn: string[] | undefined) => {
@@ -26,9 +25,8 @@ export const getList = async (
       needToReturn,
     )} FROM ${tableName}`;
 
-    const results: any = await executeQuery(db, sql);
+    const results = await db.executeSql(sql, []);
 
-    console.warn(results, 'results');
     return await handleResult(results);
   } catch (error) {
     console.error(error);
@@ -43,12 +41,12 @@ export const getOne = async (
   try {
     const sqlModel = 'SELECT * FROM models WHERE id = ?';
     const sqlNote = 'SELECT * FROM notes WHERE model_id = ?';
-    const resultOfModel: any = await executeQuery(db, sqlModel, [modelId]);
+    const resultOfModel: any = await db.executeSql(sqlModel, [modelId]);
 
     if (!resultOfModel[0].rows.length) {
       throw Error(`Model with ID ${modelId} not found`);
     }
-    const resultOfNotes: any = await executeQuery(db, sqlNote, [modelId]);
+    const resultOfNotes: any = await db.executeSql(sqlNote, [modelId]);
 
     return {
       model: resultOfModel[0].rows.item(0),
@@ -76,6 +74,25 @@ export const searchList = async (
   column: string,
   searchTerm: string,
 ) => {
-  const sql = `SELECT * FROM ${tableName} WHERE ${column} LIKE ?`;
-  await executeQuery(db, sql, [`%${searchTerm}%`]);
+  const queryString = `SELECT * FROM ${tableName} WHERE ${column} LIKE ?`;
+  const params = [`%${searchTerm}%`];
+
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(
+        queryString,
+        params,
+        (_, data) => {
+          let result = [];
+          for (let i = 0; i < data.rows.length; i++) {
+            result.push(data.rows.item(i));
+          }
+          resolve(result);
+        },
+        (_, error) => {
+          reject(error);
+        },
+      );
+    });
+  });
 };

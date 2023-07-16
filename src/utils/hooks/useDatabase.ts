@@ -38,7 +38,6 @@ const useDatabase = (): UseDatabaseResult => {
       const db = await getDBConnection();
 
       const items = await getList(db, tablesName, needToReturn);
-      console.log(items, 'hooks');
 
       setData(items);
     } catch (err) {
@@ -56,8 +55,7 @@ const useDatabase = (): UseDatabaseResult => {
     setIsLoading(true);
     try {
       const db = await getDBConnection();
-      const items = await saveItems(db, item, tablesName);
-      console.log(items);
+      await saveItems(db, item, tablesName);
     } catch (err) {
       console.error(err);
       setError(err);
@@ -71,7 +69,6 @@ const useDatabase = (): UseDatabaseResult => {
     try {
       const db = await getDBConnection();
       const item = await getOne(db, id);
-
       setData(item);
     } catch (err) {
       console.error(err);
@@ -89,7 +86,11 @@ const useDatabase = (): UseDatabaseResult => {
     setIsLoading(true);
     try {
       const db = await getDBConnection();
-      await searchList(db, tablesName, column, searchTerm);
+      const items = searchList(db, tablesName, column, searchTerm);
+      items.then(res => {
+        // @ts-ignore
+        setData(res);
+      });
     } catch (err) {
       console.error(err);
       setError(err);

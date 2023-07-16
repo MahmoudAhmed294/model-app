@@ -1,10 +1,38 @@
-import * as React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, StyleSheet, View} from 'react-native';
 import {BarcodeIcon} from '../icons';
 import MyInput from './MyInput';
+import useDatabase from '~/utils/hooks/useDatabase';
 
-const SearchInput = () => {
-  const [text, setText] = React.useState('');
+type Props = {
+  setSearchResult: any;
+};
+
+const SearchInput = ({setSearchResult}: Props) => {
+  const {search, error, data} = useDatabase();
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    if (text !== '') {
+      search('models', 'name', text);
+    } else {
+      setSearchResult(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert(error.message);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
+
+  useEffect(() => {
+    setSearchResult(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, setSearchResult]);
 
   return (
     <View style={styles.searchContainer}>

@@ -1,19 +1,36 @@
-import {StyleSheet, TouchableHighlight, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import {ArrowRightIcon} from '../icons/ArrowRightIcon';
 import colors from '../../theme/colors';
 import {Text} from './text';
 
 type Props = {
   title: string;
-  icon: React.JSX.Element;
+  icon: React.ReactNode;
+  to: string | null;
+  navigation: any;
 };
 
 const NavigateButton = (props: Props) => {
-  const {icon, title} = props;
+  const {icon, title, navigation, to} = props;
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handlePressIn = () => {
+    setIsHovered(true);
+  };
+
+  const handlePressOut = () => {
+    setIsHovered(false);
+  };
 
   return (
-    <TouchableHighlight style={styles.button}>
+    <TouchableOpacity
+      style={[styles.button, isHovered && styles.buttonHoverBackground]}
+      disabled={!to}
+      activeOpacity={1}
+      onPress={() => navigation.navigate(to)}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}>
       <View style={styles.buttonContainer}>
         <View style={styles.leftSection}>
           {icon}
@@ -21,11 +38,11 @@ const NavigateButton = (props: Props) => {
             {title}
           </Text>
         </View>
-        <View style={styles.rightSection}>
+        <View>
           <ArrowRightIcon />
         </View>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
@@ -36,7 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.buttonBackground,
     borderRadius: 50,
     marginHorizontal: 12,
-    marginTop: 24,
+    marginBottom: 28,
     height: 49,
     elevation: 6,
     shadowColor: '#333',
@@ -49,6 +66,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 23,
     paddingVertical: 12,
   },
+  buttonHoverBackground: {
+    backgroundColor: colors.buttonHover,
+    borderRadius: 50,
+    marginHorizontal: 12,
+    marginBottom: 28,
+    height: 49,
+    elevation: 6,
+    shadowColor: '#333',
+  },
+
   leftSection: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -56,5 +83,4 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: 12,
   },
-  rightSection: {},
 });

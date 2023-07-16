@@ -22,7 +22,7 @@ const models: IProductDetails[] = [
     cost: 100,
     category: 'Category 1',
     description: 'This is Model 1',
-    imageUrl: '`~/assets/images/product1.png',
+    imageUrl: 'product1',
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const models: IProductDetails[] = [
     cost: 200,
     category: 'Category 1',
     description: 'This is Model 2',
-    imageUrl: '~/assets/images/product2.png',
+    imageUrl: 'product2',
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ const models: IProductDetails[] = [
     cost: 150,
     category: 'Category 2',
     description: 'This is Model 3',
-    imageUrl: '~/assets/images/product3.png',
+    imageUrl: 'product3',
   },
   {
     id: 4,
@@ -52,7 +52,7 @@ const models: IProductDetails[] = [
     cost: 250,
     category: 'Category 2',
     description: 'This is Model 4',
-    imageUrl: '~/assets/images/product3.png',
+    imageUrl: 'product4',
   },
 ];
 

@@ -1,48 +1,25 @@
-import React, {useEffect} from 'react';
-import {PaperProvider} from 'react-native-paper';
-import theme from './src/theme';
-import {View} from 'react-native';
-import useDatabase from '~/utils/hooks/useDatabase';
+import React from 'react';
 import useLoadData from '~/utils/hooks/useSeed';
-// import useLoadData from '~/utils/hooks/useSeed';
-
+import Providers from './src/Provider';
 import SQLite from 'react-native-sqlite-storage';
-import {getDBConnection} from '~/utils/db';
 
 function App(): JSX.Element {
-  const dbName = 'model-data.db';
-
-  async function deleteDatabase() {
-    const db = await getDBConnection();
-
-    SQLite.deleteDatabase(
-      dbName,
+  // TODO Delete this function
+  const deleteDatabase = () => {
+    const db = SQLite.deleteDatabase(
+      'model-data.db',
       () => {
-        console.log(`Database ${dbName} deleted successfully`);
+        console.log(`Database  deleted successfully`);
       },
       error => {
-        console.log(`Error deleting database ${dbName}: ${error}`);
+        console.log(`Failed to delete database : ${error}`);
       },
     );
-  }
+  };
   // deleteDatabase();
   useLoadData();
-  const {getOneItem, data} = useDatabase();
 
-  useEffect(() => {
-    getOneItem(1, 'models');
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      console.error({...data});
-    }
-  }, [data]);
-  return (
-    <PaperProvider theme={theme}>
-      <View></View>
-    </PaperProvider>
-  );
+  return <Providers />;
 }
 
 export default App;
